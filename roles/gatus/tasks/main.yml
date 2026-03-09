@@ -38,7 +38,7 @@
     network_mode: "doll-report"
     restart_policy: "unless-stopped"
     recreate: false
-    restart:  true
+    restart: true
     volumes:
       - "/opt/gatus_config/{{ dashboard.key }}.yaml:/config/config.yaml"
       - "/opt/gatus_data/{{ dashboard.key }}/:/status_history/"

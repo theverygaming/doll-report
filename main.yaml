@@ -5,6 +5,6 @@
     - name: Include dashboard vars
       ansible.builtin.include_vars:
         dir: dashboards/
-    roles:
-      - gatus
-    become: true
+  roles:
+    - gatus
+  become: true
