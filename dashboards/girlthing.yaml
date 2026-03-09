@@ -2,9 +2,8 @@
 dashboards:
   girlthing:
     endpoints:
-    - name: sk.girlthi.ng
-      url: https://sk.girlthi.ng
-      interval: 30s
-      conditions:
-        - "[STATUS] == 200"
-
+      - name: sk.girlthi.ng
+        url: https://sk.girlthi.ng
+        interval: 30s
+        conditions:
+          - "[STATUS] == 200"
