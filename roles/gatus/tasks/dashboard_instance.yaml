@@ -1,0 +1,25 @@
+---
+- name: Copy dashboard config file
+  ansible.builtin.copy:
+    src: "dashboards/{{ dashboard_name }}.yaml"
+    dest: /opt/gatus_config/{{ dashboard_name }}.yaml
+    mode: "644"
+
+- name: Ensure dashboard gatus container
+  community.docker.docker_container:
+    name: "gatus-{{ dashboard_name }}"
+    image: ghcr.io/twin/gatus:stable
+    state: started
+    network_mode: "doll-report"
+    restart_policy: "unless-stopped"
+    recreate: false
+    restart: true
+    volumes:
+      - "/opt/gatus_config/{{ dashboard_name }}.yaml:/config/config.yaml"
+      - "/opt/gatus_data/{{ dashboard_name }}/:/status_history/"
+
+- name: Ensure dashboard nginx config
+  ansible.builtin.template:
+    src: nginx_server.conf.j2
+    dest: "/opt/doll.report.nginx.conf.d/{{ dashboard_name }}.conf"
+    mode: "644"

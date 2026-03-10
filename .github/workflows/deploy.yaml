@@ -3,17 +3,14 @@ name: Run dashboard deployment
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - main
-    paths:
-      - "dashboards/**"
-    types: [closed]
 
 jobs:
   deploy:
     name: Run ansible
-    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    if: ${{ !github.event.repository.fork }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

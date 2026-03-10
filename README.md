@@ -6,35 +6,31 @@ doll.report is a communal infrastructure project, providing a platform for indep
 
 
 ## How does it work?
-The rough idea is that anyone that's interested can create a merge request,
-adding their own dashboard definition file into [dashboards/](dashboards/) folder with a merge request, and once approved,
-have a [gatus](https://github.com/TwiN/gatus) instance automatically provisioned.
+The rough idea is that anyone can create a merge request, add their own [gatus](https://github.com/TwiN/gatus)
+configuration file into the [dashboards/](dashboards/) folder, and have said gatus instance automatically provisioned upon approval.
 
-The gatus instance is individual per dashboard and all options are supported.
+When pushing to the repo [`yamllint`](https://github.com/adrienverge/yamllint) will be run,
+make sure your branch passes this or the merge request will not be approved. the `yamllint` package is available on PyPi
 
-Upon pushing to the repo [`ansible-lint`](https://docs.ansible.com/projects/lint/usage/) will be run,
-make sure your branch passes this or the merge request will not be approved. the `ansible-lint` package is available on PyPi
 
-## `<config>.yaml` format
-The format of the dashboard `.yaml` configuration is as follows
-```yaml
----
-dashboards:
-  <name of your dashboard>:
-    # gatus config goes straight in here
-```
+## `<dashbaord_name>.yaml` definitions
+The `<dashboard_name>.yaml` files contain [gatus](https://github.com/TwiN/gatus) configuration.
 
-that's it! the name of the dashboard will be used as the domain, your instance will be available at `https://<name of dashboard>.doll.report`
+The filename (excluding `.yaml`) will be used as the subdomain for the dashboard,
+your instance will be available at `https://<name of dashboard>.doll.report`
 
 
 ## Rules
 - Keep your probe intervals above two seconds (this applies to everything apart from domain expiration probes)
-- domain expiration probe intervals are at the most frequent, allowed to run at 30 minute intervals
+- Don't keep excessive history data (leave `storage.maximum-number-of-results` and
+  `storage.maximum-number-of-events` at deafult unless absolutely required)
+- Domain expiration probe intervals not allowed to be lower than 30 minutes between requests.
   (See more info here: https://github.com/TwiN/gatus?tab=readme-ov-file#monitoring-domain-expiration)
 
 ## Alerts?
 
-Alerts are coming very soon. Thermia will shim auth details for an smtp server into your gatus config through the deploy pipeline.
+Alerts are coming very soon. Thermia will shim auth details for an smtp server into your gatus config through the deploy pipeline, which you
+can then use to set up email alerts for your own dashboard.
 
 ## Issues?
 

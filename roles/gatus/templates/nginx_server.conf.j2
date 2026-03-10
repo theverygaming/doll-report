@@ -7,9 +7,12 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name {{ dashboard.key }}.doll.report;
+    server_name {{ dashboard_name }}.doll.report;
+
     location / {
-        proxy_pass http://gatus-{{ dashboard.key }}:8080;
+        resolver 127.0.0.11;
+        set $gatus_instance gatus-{{ dashboard_name }}:8080;
+        proxy_pass http://$gatus_instance;
         proxy_set_header Host $host;
         proxy_http_version 1.1;
         proxy_redirect off;
