@@ -1,5 +1,5 @@
-ui:  # web-ui configuration, see it applied at https://girlthing.doll.report
-  title: "girlthi.ng status"  # <title/> tag 
+ui:  # web-ui configuration, feel free to change it !!
+  title: "girlthi.ng status"  # <title/> tag
   header: "girlthing.doll.report"  # dashboard <h1>
   dashboard-subheading: "Service Status"  # dashboard <h2>
   logo: "https://girlthi.ng/~aperture/img/girlthing-heart.png"  # web ui main logo
