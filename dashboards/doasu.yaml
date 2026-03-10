@@ -27,10 +27,10 @@ ui:
 
   dark-mode: false # don't use dark mode by default
 
-#storage:
-#  type: sqlite
-#  caching: true
-#  path: /status_history/history.db
+storage:
+  type: sqlite
+  caching: true
+  path: /status_history/history.db
 
 announcements:
   - timestamp: "1970-01-01T01:00:00Z"
