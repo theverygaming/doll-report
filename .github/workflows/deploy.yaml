@@ -4,6 +4,8 @@ name: Run dashboard deployment
 on:
   workflow_dispatch:
   push:
+    paths:
+      - dashboards/**
     branches:
       - main
 
