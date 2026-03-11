@@ -11,6 +11,12 @@
     mode: "644"
     state: directory
 
+- name: Ensure gatus env dir
+  ansible.builtin.file:
+    path: /opt/gatus_env
+    mode: "644"
+    state: directory
+
 - name: Ensure doll report config dir
   ansible.builtin.file:
     path: /opt/doll.report.nginx.conf.d
@@ -19,7 +25,10 @@
 
 - name: Create doll-report docker network
   community.docker.docker_network:
+    enable_ipv6: true
     name: doll-report
+    ipam_config:
+      - subnet: fd00:babe:cafe::/64
 
 - name: Instance defined dashboards
   ansible.builtin.include_tasks: dashboard_instance.yaml
@@ -29,6 +38,16 @@
     - "dashboards/*"
   loop_control:
     loop_var: filename
+  when: dashboard_list is undefined
+
+- name: Instance defined dashboards
+  ansible.builtin.include_tasks: dashboard_instance.yaml
+  vars:
+    dashboard_name: "{{ ( (filename | split('/') )[-1] | split('.') )[0] }}"
+  loop: "{{ dashboard_list }}"
+  loop_control:
+    loop_var: filename
+  when: dashboard_list is defined
 
 - name: Ensure nginx aggregator container
   community.docker.docker_container:
