@@ -1,11 +1,11 @@
 # doll.report
 
-## what is `doll.report`?
+## What is `doll.report`?
 doll.report is a communal infrastructure project, providing a platform for independent uptime tracking
 (and downtime alerts) of infrastructure and services.
 
 
-## how does it work?
+## How does it work?
 The rough idea is that anyone can create a merge request, add their own [gatus](https://github.com/TwiN/gatus)
 configuration file into the [dashboards/](dashboards/) folder, and have said gatus instance automatically provisioned upon approval.
 
@@ -13,21 +13,21 @@ When pushing to the repo [`yamllint`](https://github.com/adrienverge/yamllint) w
 make sure your branch passes this or the merge request will not be approved. the `yamllint` package is available on PyPi
 
 
-## `<dashboard_name>.yaml` definitions
+## `<dashboard_name>.yaml` Definition
 The `<dashboard_name>.yaml` files contain [gatus](https://github.com/TwiN/gatus) configuration.
 
 The filename (excluding `.yaml`) will be used as the subdomain for the dashboard,
 your instance will be available at `https://<name of dashboard>.doll.report`.
 
 
-## rules
+## Rules
 - Keep your probe intervals above two seconds (this applies to everything apart from domain expiration probes)
 - Don't keep excessive history data (leave `storage.maximum-number-of-results` and
   `storage.maximum-number-of-events` at deafult unless absolutely required)
 - Domain expiration probe intervals not allowed to be lower than 30 minutes between requests.
   (See more info here: https://github.com/TwiN/gatus?tab=readme-ov-file#monitoring-domain-expiration)
 
-## globally provided variables
+## Globaly Provided Variables
 We ship a couple of default secret variables to all gatus instances. These are available no matter if user defined variables are present or not.
 
 ### smtp 
@@ -49,7 +49,7 @@ alerting:
     to: "myemail@goes.here"  # use a user-defined secret if you don't want to expose your email publically
 ```
 
-## user-defined secret variables
+## User-Defined Secret Variables
 
 ### Transparancy
 
@@ -117,7 +117,7 @@ alerting:
 > `local_envfile` is in .gitignore for convenience
 
 
-## Issues?
+## Issues
 
 Feel free to open issues on the repo if there are any bugs or questions!
 
