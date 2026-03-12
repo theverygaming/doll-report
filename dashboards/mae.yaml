@@ -11,12 +11,12 @@ alerting:
 ui:  # web-ui configuration, feel free to change it !!
   title: "maecafe status"  # <title/> tag
   header: "maecafe"  # dashboard <h1>
-  dashboard-subheading: "Service Status"  # dashboard <h2>
-  logo: "cdn.mae.wtf/maespacestation/logo.png"  # web ui main logo
-  favicon:  # favico
-    default: "https://cdn.mae.wtf/maespacestation/logo.png"
-    size16x16: "https://cdn.mae.wtf/maespacestation/logo.png"
-    size32x32: "https://cdn.mae.wtf/maespacestation/logo.png"
+  dashboard-subheading: "service status"  # dashboard <h2>
+  logo: "https://cdn.mae.wtf/maecafe/logo.png"  # web ui main logo
+  favicon:  # favicon
+    default: "https://cdn.mae.wtf/maecafe/logo.png"
+    size16x16: "https://cdn.mae.wtf/maecafe/logo.png"
+    size32x32: "https://cdn.mae.wtf/maecafe/logo.png"
   default-sort-by: group
   custom-css: |2  # dashboard custom css
     @import url(https://rsms.me/inter/inter.css);
@@ -44,8 +44,8 @@ _variables:
   - &ping_condition
     - "[CONNECTED] == true"
   - &hide_url
-    - "hide-url: true"
-    - "hide-hostname: true"
+      hide-url: true
+      hide-hostname: true
 
 endpoints:
   #
@@ -76,11 +76,13 @@ endpoints:
       - type: discord
 
   - name: periwinkle
-    url: https://pwkl.maecafe.link:8889
+    url: http://pwkl.maecafe.link:8889
     ui:
       hide-port: true
     interval: *interval
-    conditions: *http_condition
+    conditions:
+      - "[CONNECTED] == true"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
     group: "services"
     alerts:
       - type: discord
@@ -88,6 +90,7 @@ endpoints:
   - name: mail
     url: "starttls://mail.mae.wtf:587"
     interval: *interval
+    group: "services"
     client:
       timeout: 5s
     conditions: *tls_condition
@@ -96,7 +99,7 @@ endpoints:
     url: https://metrics.mae.wtf
     interval: *interval
     conditions: *http_condition
-    group: "services"  # Optional group
+    group: "services"
     alerts:
       - type: discord
 
@@ -130,7 +133,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -139,7 +142,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -148,7 +151,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -157,7 +160,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -166,7 +169,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -174,8 +177,10 @@ endpoints:
     url: ${URL_RDR}
     ui: *hide_url
     interval: *interval
-    conditions: *http_condition
-    group: "internal"
+    conditions:
+      - "[STATUS] == 401"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -183,8 +188,10 @@ endpoints:
     url: ${URL_SNR}
     ui: *hide_url
     interval: *interval
-    conditions: *http_condition
-    group: "internal"
+    conditions:
+      - "[STATUS] == 401"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+    group: "services (internal)"
     alerts:
       - type: discord
 
@@ -193,7 +200,7 @@ endpoints:
     ui: *hide_url
     interval: *interval
     conditions: *http_condition
-    group: "internal"
+    group: "services (internal)"
     alerts:
       - type: discord
 
