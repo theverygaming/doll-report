@@ -52,13 +52,13 @@ endpoints:
 
 
   - name: 4censord.cloud
-    url: 4censord.cloud
+    url: icmp://4censord.cloud
     interval: *interval_domaincheck
     conditions: *domain_check
     group: domains
 
   - name: unfug.social
-    url: unfug.social
+    url: icmp://unfug.social
     interval: *interval_domaincheck
     conditions: *domain_check
     group: domains
