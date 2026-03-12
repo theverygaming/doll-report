@@ -15,6 +15,17 @@ jobs:
     if: ${{ !github.event.repository.fork }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323
+        with:
+          files: |
+            dashboards/*.yaml
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -33,6 +44,9 @@ jobs:
       - name: Run Ansible Playbook
         env:
           ANSIBLE_HOST_KEY_CHECKING: False
-
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          ansible-playbook -u ${{ secrets.ANSIBLE_USER }} --private-key ansible_key -i doll.report, main.yaml
+          echo $ALL_CAHNGED_FILES
+          for file in ${ALL_CHANGED_FILES}; do
+            # ansible-playbook -u ${{ secrets.ANSIBLE_USER }} --private-key ansible_key -e="{}" -i doll.report, main.yaml
+          done
