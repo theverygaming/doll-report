@@ -5,7 +5,7 @@ doll.report is a communal infrastructure project, providing a platform for indep
 (and downtime alerts) of infrastructure and services.
 
 
-## How does it work?
+## how does it work?
 The rough idea is that anyone can create a merge request, add their own [gatus](https://github.com/TwiN/gatus)
 configuration file into the [dashboards/](dashboards/) folder, and have said gatus instance automatically provisioned upon approval.
 
@@ -20,15 +20,36 @@ The filename (excluding `.yaml`) will be used as the subdomain for the dashboard
 your instance will be available at `https://<name of dashboard>.doll.report`.
 
 
-## Rules
+## rules
 - Keep your probe intervals above two seconds (this applies to everything apart from domain expiration probes)
 - Don't keep excessive history data (leave `storage.maximum-number-of-results` and
   `storage.maximum-number-of-events` at deafult unless absolutely required)
 - Domain expiration probe intervals not allowed to be lower than 30 minutes between requests.
   (See more info here: https://github.com/TwiN/gatus?tab=readme-ov-file#monitoring-domain-expiration)
 
+## globally provided variables
+We ship a couple of default secret variables to all gatus instances. These are available no matter if user defined variables are present or not.
 
-## Secret configuration variables
+### smtp 
+We provide the following variables for email alert config:
+
+- `DOLL_REPORT_SMTP_USERNAME`
+- `DOLL_REPORT_SMTP_PASSWORD`
+- `DOLL_REPORT_SMTP_HOST` 
+
+Usage:
+```yaml
+alerting:
+  email:
+    from: "{any name}@doll.report"
+    username: ${DOLL_REPORT_SMTP_USERNAME}
+    password: ${DOLL_REPORT_SMTP_PASSWORD}
+    host: ${DOLL_REPORT_SMTP_PASSWORD}
+    port: 587
+    to: "myemail@goes.here"  # use a user-defined secret if you don't want to expose your email publically
+```
+
+## user-defined secret variables
 
 ### Transparancy
 
